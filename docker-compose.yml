@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: cybersec-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: cybersec
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mongodb:
+    image: mongo:7
+    container_name: cybersec-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:7
+    container_name: cybersec-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  mysql_data:
+  mongo_data:
