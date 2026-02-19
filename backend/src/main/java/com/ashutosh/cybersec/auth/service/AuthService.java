@@ -3,6 +3,7 @@ package com.ashutosh.cybersec.auth.service;
 import com.ashutosh.cybersec.auth.dto.RegisterRequest;
 import com.ashutosh.cybersec.auth.entity.User;
 import com.ashutosh.cybersec.auth.repository.UserRepository;
+import com.ashutosh.cybersec.detection.service.DetectionService;
 import com.ashutosh.cybersec.logs.service.LogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +19,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final LoginAttemptService loginAttemptService;
     private final LogService logService;
-
+    private final DetectionService detectionService;
 
     public String register(RegisterRequest request) {
 
@@ -58,6 +59,7 @@ public class AuthService {
 
             loginAttemptService.loginFailed(username);          // Redis counter
             logService.save(username, "FAILED_LOGIN", ipAddress); // DB audit log
+            detectionService.checkBruteForce(username);
 
             throw new RuntimeException("Invalid username or password");
         }
