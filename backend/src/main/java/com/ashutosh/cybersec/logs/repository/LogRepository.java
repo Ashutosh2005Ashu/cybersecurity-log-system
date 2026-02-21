@@ -13,4 +13,9 @@ public interface LogRepository extends JpaRepository<Log, Long> {
             String action,
             LocalDateTime time
     );
+    List<Log> findByIpAddressAndActionAndTimestampAfter(
+            String ipAddress,
+            String action,
+            LocalDateTime timestamp
+    );
 }

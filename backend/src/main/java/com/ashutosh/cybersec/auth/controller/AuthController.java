@@ -30,7 +30,7 @@ public class AuthController {
         String token = authService.login(
                 request.getUsername(),
                 request.getPassword(),
-                ip
+                request.getIpAddress()
         );
 
         return ResponseEntity.ok(new LoginResponse(token));

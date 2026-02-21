@@ -60,6 +60,7 @@ public class AuthService {
             loginAttemptService.loginFailed(username);          // Redis counter
             logService.save(username, "FAILED_LOGIN", ipAddress); // DB audit log
             detectionService.checkBruteForce(username);
+            detectionService.checkCredentialStuffing(ipAddress);
 
             throw new RuntimeException("Invalid username or password");
         }
@@ -67,7 +68,7 @@ public class AuthService {
         // 4️⃣ Successful login
         loginAttemptService.loginSucceeded(username);             // reset Redis
         logService.save(username, "LOGIN_SUCCESS", ipAddress);    // DB audit log
-
+        detectionService.checkSuspiciousLogin(username);
         // 5️⃣ Generate JWT using username (IMPORTANT)
         return jwtService.generateToken(user.getUsername());
     }
