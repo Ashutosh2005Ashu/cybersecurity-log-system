@@ -29,4 +29,5 @@ public class Log {
     private String ipAddress;
 
     private LocalDateTime timestamp;
+
 }

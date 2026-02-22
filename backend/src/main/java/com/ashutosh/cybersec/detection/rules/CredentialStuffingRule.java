@@ -1,10 +1,12 @@
 package com.ashutosh.cybersec.detection.rules;
 
 import com.ashutosh.cybersec.logs.entity.Log;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Component
 public class CredentialStuffingRule {
 
     private static final int USER_THRESHOLD = 5;   // unique users

@@ -21,6 +21,7 @@ public class AuthService {
     private final LogService logService;
     private final DetectionService detectionService;
 
+
     public String register(RegisterRequest request) {
 
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
@@ -43,7 +44,6 @@ public class AuthService {
     }
 
     public String login(String username, String password, String ipAddress) {
-
         // 1️⃣ Check brute-force block in Redis
         if (loginAttemptService.isBlocked(username)) {
             logService.save(username, "ACCOUNT_BLOCKED", ipAddress);
@@ -61,6 +61,7 @@ public class AuthService {
             logService.save(username, "FAILED_LOGIN", ipAddress); // DB audit log
             detectionService.checkBruteForce(username);
             detectionService.checkCredentialStuffing(ipAddress);
+            detectionService.checkDos(ipAddress);
 
             throw new RuntimeException("Invalid username or password");
         }
@@ -69,6 +70,7 @@ public class AuthService {
         loginAttemptService.loginSucceeded(username);             // reset Redis
         logService.save(username, "LOGIN_SUCCESS", ipAddress);    // DB audit log
         detectionService.checkSuspiciousLogin(username);
+        detectionService.checkDos(ipAddress);
         // 5️⃣ Generate JWT using username (IMPORTANT)
         return jwtService.generateToken(user.getUsername());
     }
