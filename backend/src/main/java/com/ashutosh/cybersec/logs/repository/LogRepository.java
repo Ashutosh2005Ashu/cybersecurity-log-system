@@ -21,4 +21,5 @@ public interface LogRepository extends JpaRepository<Log, Long> {
 
 
     List<Log> findByIpAddress(String ipAddress);
+    List<Log> findByUsername(String username);
 }
