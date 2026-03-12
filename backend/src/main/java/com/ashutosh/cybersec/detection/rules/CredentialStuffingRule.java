@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 @Component
-public class CredentialStuffingRule {
+public class CredentialStuffingRule implements DetectionRule {
 
     private static final int USER_THRESHOLD = 5;   // unique users
     private static final int FAIL_THRESHOLD = 5;   // total failures
 
+    @Override
     public boolean isTriggered(List<Log> logs) {
 
         long totalFailures = logs.size();
@@ -22,5 +23,10 @@ public class CredentialStuffingRule {
 
         return totalFailures >= FAIL_THRESHOLD &&
                 uniqueUsers.size() >= USER_THRESHOLD;
+    }
+
+    @Override
+    public String getRuleName() {
+        return "CREDENTIAL_STUFFING";
     }
 }

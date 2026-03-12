@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 @Component
-public class SuspiciousLoginRule {
+public class SuspiciousLoginRule implements DetectionRule {
 
     public boolean isTriggered(List<Log> logs) {
 
@@ -16,5 +16,10 @@ public class SuspiciousLoginRule {
                 .collect(Collectors.toSet());
 
         return uniqueIps.size() >= 2;
+    }
+
+    @Override
+    public String getRuleName() {
+        return "SUSPICIOUS_LOGIN";
     }
 }

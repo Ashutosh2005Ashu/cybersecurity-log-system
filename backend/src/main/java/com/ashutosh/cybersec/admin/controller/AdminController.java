@@ -1,9 +1,11 @@
 package com.ashutosh.cybersec.admin.controller;
 
 import com.ashutosh.cybersec.admin.service.AdminService;
+import com.ashutosh.cybersec.common.enums.Severity;
 import com.ashutosh.cybersec.detection.entity.DetectionAlert;
 import com.ashutosh.cybersec.logs.entity.Log;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,27 +17,43 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    // 🔴 Get all alerts
+    // ── Alerts ───────────────────────────────────────────────────────
+
     @GetMapping("/alerts")
-    public List<DetectionAlert> getAllAlerts() {
-        return adminService.getAllAlerts();
+    public ResponseEntity<List<DetectionAlert>> getAllAlerts() {
+        return ResponseEntity.ok(adminService.getAllAlerts());
     }
 
-    // 🔴 Get alerts by type
+    @GetMapping("/alerts/unresolved")
+    public ResponseEntity<List<DetectionAlert>> getUnresolvedAlerts() {
+        return ResponseEntity.ok(adminService.getUnresolvedAlerts());
+    }
+
     @GetMapping("/alerts/type/{type}")
-    public List<DetectionAlert> getAlertsByType(@PathVariable String type) {
-        return adminService.getAlertsByType(type);
+    public ResponseEntity<List<DetectionAlert>> getAlertsByType(@PathVariable String type) {
+        return ResponseEntity.ok(adminService.getAlertsByType(type));
     }
 
-    // 🔴 Get all logs
+    @GetMapping("/alerts/severity/{severity}")
+    public ResponseEntity<List<DetectionAlert>> getAlertsBySeverity(@PathVariable Severity severity) {
+        return ResponseEntity.ok(adminService.getAlertsBySeverity(severity));
+    }
+
+    @PatchMapping("/alerts/{id}/resolve")
+    public ResponseEntity<String> resolveAlert(@PathVariable Long id) {
+        adminService.resolveAlert(id);
+        return ResponseEntity.ok("Alert resolved");
+    }
+
+    // ── Logs ─────────────────────────────────────────────────────────
+
     @GetMapping("/logs")
-    public List<Log> getAllLogs() {
-        return adminService.getAllLogs();
+    public ResponseEntity<List<Log>> getAllLogs() {
+        return ResponseEntity.ok(adminService.getAllLogs());
     }
 
-    // 🔴 Get logs by username
     @GetMapping("/logs/{username}")
-    public List<Log> getLogsByUsername(@PathVariable String username) {
-        return adminService.getLogsByUsername(username);
+    public ResponseEntity<List<Log>> getLogsByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(adminService.getLogsByUsername(username));
     }
 }
