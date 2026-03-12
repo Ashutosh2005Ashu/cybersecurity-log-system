@@ -37,7 +37,7 @@ public class DetectionService {
 
     // ── 1. BRUTE FORCE ──────────────────────────────────────────────
     @Transactional
-    public void checkBruteForce(String username) {
+    public void checkBruteForce(String username, String ipAddress) {
         LocalDateTime windowStart = LocalDateTime.now().minusMinutes(5);
 
         List<Log> logs = logRepository
@@ -46,6 +46,7 @@ public class DetectionService {
         if (bruteForceRule.isTriggered(logs) && isNewAlert(username, "BRUTE_FORCE")) {
             DetectionAlert alert = DetectionAlert.builder()
                     .username(username)
+                    .ipAddress(ipAddress)
                     .type("BRUTE_FORCE")
                     .severity(Severity.HIGH)
                     .message("Multiple failed login attempts within 5 minutes")
@@ -82,7 +83,7 @@ public class DetectionService {
 
     // ── 3. SUSPICIOUS LOGIN ─────────────────────────────────────────
     @Transactional
-    public void checkSuspiciousLogin(String username) {
+    public void checkSuspiciousLogin(String username, String ipAddress) {
         LocalDateTime windowStart = LocalDateTime.now().minusMinutes(5);
 
         List<Log> logs = logRepository
@@ -91,6 +92,7 @@ public class DetectionService {
         if (suspiciousLoginRule.isTriggered(logs) && isNewAlert(username, "SUSPICIOUS_LOGIN")) {
             DetectionAlert alert = DetectionAlert.builder()
                     .username(username)
+                    .ipAddress(ipAddress)
                     .type("SUSPICIOUS_LOGIN")
                     .severity(Severity.MEDIUM)
                     .message("Login from multiple IPs in short time")

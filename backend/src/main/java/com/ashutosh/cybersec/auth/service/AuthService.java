@@ -70,7 +70,7 @@ public class AuthService {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             loginAttemptService.loginFailed(username);              // Redis counter
             logService.save(username, "FAILED_LOGIN", ipAddress);  // DB audit log
-            detectionService.checkBruteForce(username);
+            detectionService.checkBruteForce(username, ipAddress);
             detectionService.checkCredentialStuffing(ipAddress);
             detectionService.checkDos(ipAddress);
 
@@ -80,7 +80,7 @@ public class AuthService {
         // 4️⃣ Successful login
         loginAttemptService.loginSucceeded(username);              // reset Redis
         logService.save(username, "LOGIN_SUCCESS", ipAddress);     // DB audit log
-        detectionService.checkSuspiciousLogin(username);
+        detectionService.checkSuspiciousLogin(username, ipAddress);
         detectionService.checkDos(ipAddress);
 
         log.info("Successful login: {} from IP: {}", username, ipAddress);
