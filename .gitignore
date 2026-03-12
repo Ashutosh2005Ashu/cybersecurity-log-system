@@ -1,18 +1,27 @@
 # Maven
 target/
 *.log
+.mvn/wrapper/maven-wrapper.jar
 
 # IntelliJ
 .idea/
 *.iml
+out/
+
+# VS Code
+.vscode/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Env files
+# Env files (SECRETS)
 .env
+*.env
 
 # Docker volumes
 mysql-data/
 redis-data/
+
+# Spring Boot
+*.jar
