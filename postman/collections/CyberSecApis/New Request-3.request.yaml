@@ -1,6 +1,0 @@
-$kind: http-request
-name: New Request
-url: ""
-method: GET
-order: 3758302701004378
-examples: ./.resources\New Request-3.resources\examples
