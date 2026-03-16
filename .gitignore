@@ -29,3 +29,9 @@ redis-data/
 # Postman workspace metadata
 .postman/
 postman/
+
+
+# Images
+*.png
+*.jpg
+*.jpeg

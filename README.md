@@ -130,7 +130,6 @@ Automatically detects:
 * Possible brute-force attacks
 
 Triggers **security alerts** when thresholds are exceeded.
-![img_8.png](img_8.png)
 
 ---
 
@@ -175,7 +174,6 @@ Alert Generation
         ↓
 Admin Investigation
 ```
-![img_9.png](img_9.png)
 ---
 
 # 🔄 Request Lifecycle
